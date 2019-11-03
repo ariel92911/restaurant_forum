@@ -1,8 +1,10 @@
 const fs = require('fs')
 const db = require('../models')
 const Restaurant = db.Restaurant
+const User = db.User
 const imgur = require('imgur-node-api')
 const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
+let testUser
 
 const adminController = {
   getRestaurants: (req, res) => {
@@ -20,7 +22,6 @@ const adminController = {
       req.flash('error_messages', "name didn't exist")
       return res.redirect('back')
     }
-
 
     const { file } = req
     if (file) {
@@ -120,7 +121,30 @@ const adminController = {
             res.redirect('/admin/restaurants')
           })
       })
-  }
+  },
+
+  editUsers: (req, res) => {
+    console.log('重新導向頁面')
+    return User.findAll().then(users => {
+      return res.render('admin/users', { users: users })
+    })
+  },
+
+  putUsers: (req, res) => {
+    return User.findByPk(req.params.id)
+      .then((user) => {
+
+        user.update({
+          isAdmin: !user.isAdmin
+        })
+          .then(() => {
+            req.flash('success_messages', 'user was successfully to update')
+            res.redirect('/admin/users')
+          })
+      })
+
+  },
+
 }
 
 module.exports = adminController
