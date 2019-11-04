@@ -1,6 +1,7 @@
 const restController = require('../controllers/restController.js')
 const adminController = require('../controllers/adminController.js')
 const userController = require('../controllers/userController.js')
+const categoryController = require('../controllers/categoryController.js')
 const multer = require('multer')
 const upload = multer({ dest: 'temp/' })
 
@@ -34,6 +35,9 @@ module.exports = (app, passport) => {
   //使用者權限管理-路由
   app.get('/admin/users', authenticatedAdmin, adminController.editUsers)
   app.put('/admin/users/:id', authenticatedAdmin, adminController.putUsers)
+
+  //分類-路由
+  app.get('/admin/categories', authenticatedAdmin, categoryController.getCategories)
 
   app.get('/signup', userController.signUpPage)
   app.post('/signup', userController.signUp)
