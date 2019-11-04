@@ -4,7 +4,6 @@ const Restaurant = db.Restaurant
 const User = db.User
 const imgur = require('imgur-node-api')
 const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
-let testUser
 
 const adminController = {
   getRestaurants: (req, res) => {
