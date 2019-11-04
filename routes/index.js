@@ -36,8 +36,9 @@ module.exports = (app, passport) => {
   app.get('/admin/users', authenticatedAdmin, adminController.editUsers)
   app.put('/admin/users/:id', authenticatedAdmin, adminController.putUsers)
 
-  //分類-路由
+  //餐廳分類管理-路由
   app.get('/admin/categories', authenticatedAdmin, categoryController.getCategories)
+  app.post('/admin/categories', authenticatedAdmin, categoryController.postCategory)
 
   app.get('/signup', userController.signUpPage)
   app.post('/signup', userController.signUp)
