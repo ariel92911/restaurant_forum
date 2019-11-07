@@ -3,6 +3,7 @@ const db = require('../models')
 const User = db.User
 const Favorite = db.Favorite
 const Followship = db.Followship
+const Like = db.Like
 
 const userController = {
   signUpPage: (req, res) => {
@@ -118,7 +119,34 @@ const userController = {
             return res.redirect('back')
           })
       })
-  }
+  },
+
+  //對餐廳按喜歡
+  addLike: (req, res) => {
+    return Like.create({
+      UserId: req.user.id,
+      RestaurantId: req.params.restaurantId
+    })
+      .then((restaurant) => {
+        return res.redirect('back')
+      })
+  },
+
+  //對餐廳移除喜歡
+  removeLike: (req, res) => {
+    return Like.findOne({
+      where: {
+        UserId: req.user.id,
+        RestaurantId: req.params.restaurantId
+      }
+    })
+      .then((like) => {
+        like.destroy()
+          .then((restaurant) => {
+            return res.redirect('back')
+          })
+      })
+  },
 }
 
 module.exports = userController
