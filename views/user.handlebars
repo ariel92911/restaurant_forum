@@ -2,14 +2,16 @@
   <div class="card mb-3">
     <div class="row no-gutters">
       <div class="col-md-4">
-        <img src="{{user.image}}" class="card-img" alt="Card image cap">
+        <img src="{{userPage.image}}" class="card-img" alt="Card image cap">
       </div>
       <div class="col-md-8">
         <div class="card-body">
-          <h4>{{user.name}}</h4>
-          <p>{{user.email}}</p>
-          <p>{{user.Comments.length}} 間已評論餐廳</p>
-          <a href="/users/{{user.id}}/edit" class="btn btn-primary">Edit</a>
+          <h4>{{userPage.name}}</h4>
+          <p>{{userPage.email}}</p>
+          <p>{{userPage.Comments.length}} 間已評論餐廳</p>
+          {{#if isOwner}}
+          <a href="/users/{{userPage.id}}/edit" class="btn btn-primary">Edit</a>
+          {{/if}}
         </div>
       </div>
     </div>
@@ -17,9 +19,9 @@
 </div>
 <div class="col-md-11" style="margin:auto;">
   <div class="card">
-    <h5 class="card-header">{{user.Comments.length}} 間已評論餐廳</h5>
+    <h5 class="card-header">{{userPage.Comments.length}} 間已評論餐廳</h5>
     <div class="card-body">
-      {{#each user.Comments}}
+      {{#each userPage.Comments}}
       <div class="mr-2" style="display:inline-block;">
         <a href="/restaurants/{{this.Restaurant.id}}">
           <img src="{{this.Restaurant.image}}" width="100" alt="">

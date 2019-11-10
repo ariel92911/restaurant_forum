@@ -154,11 +154,17 @@ const userController = {
   },
 
   getUser: (req, res) => {
+
     User.findByPk(req.params.id, {
       include: [{ model: Comment, include: [Restaurant] }]
     })
-      .then(user => {
-        return res.render('user', { user })
+      .then(userPage => {
+        if (req.user.id === Number(req.params.id)) {
+          let isOwner = true
+          return res.render('user', { userPage, isOwner })
+        }
+
+        return res.render('user', { userPage })
       })
   },
 
