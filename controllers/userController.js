@@ -154,13 +154,11 @@ const userController = {
   },
 
   getUser: (req, res) => {
-    User.findByPk(req.params.id, { include: { model: Comment, include: [Restaurant] } })
+    User.findByPk(req.params.id, {
+      include: [{ model: Comment, include: [Restaurant] }]
+    })
       .then(user => {
-
-        const restaurants = user.Comments.map(r => (r.Restaurant.dataValues))
-        let count = restaurants.length
-
-        return res.render('user', { user, restaurants, count })
+        return res.render('user', { user })
       })
   },
 
