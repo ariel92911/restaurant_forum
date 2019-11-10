@@ -186,7 +186,7 @@ const userController = {
               })
           })
       })
-    } else {
+    } else
       return User.findByPk(req.params.id)
         .then((user) => {
           user.update({
@@ -198,9 +198,9 @@ const userController = {
               res.redirect(`/users/${user.id}`)
             })
         })
-    }
   }
 }
+
 
 
 module.exports = userController
