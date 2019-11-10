@@ -2,6 +2,8 @@ const fs = require('fs')
 const bcrypt = require('bcrypt-nodejs')
 const db = require('../models')
 const User = db.User
+const Comment = db.Comment;
+const Restaurant = db.Restaurant;
 const Favorite = db.Favorite
 const Followship = db.Followship
 const Like = db.Like
@@ -152,9 +154,13 @@ const userController = {
   },
 
   getUser: (req, res) => {
-    User.findByPk(req.params.id)
+    User.findByPk(req.params.id, { include: { model: Comment, include: [Restaurant] } })
       .then(user => {
-        return res.render('user', { user })
+
+        const restaurants = user.Comments.map(r => (r.Restaurant.dataValues))
+        let count = restaurants.length
+
+        return res.render('user', { user, restaurants, count })
       })
   },
 
