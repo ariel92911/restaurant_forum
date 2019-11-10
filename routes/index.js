@@ -20,6 +20,13 @@ module.exports = (app, passport) => {
     }
     res.redirect('/signin')
   }
+  const authenticatedOwner = (req, res, next) => {
+    if (req.isAuthenticated()) {
+      if (req.user.id === Number(req.params.id)) { return next() }
+      return res.redirect(`/users/${req.user.id}`)
+    }
+    res.redirect('/signin')
+  }
 
   app.get('/', authenticated, (req, res) => res.redirect('restaurants'))
   app.get('/restaurants', authenticated, restController.getRestaurants)
@@ -67,6 +74,6 @@ module.exports = (app, passport) => {
   app.get('/logout', userController.logout)
 
   app.get('/users/:id', authenticated, userController.getUser)
-  app.get('/users/:id/edit', authenticated, userController.editUser)
-  app.put('/users/:id', authenticated, upload.single('image'), userController.putUser)
+  app.get('/users/:id/edit', authenticatedOwner, userController.editUser)
+  app.put('/users/:id', authenticatedOwner, upload.single('image'), userController.putUser)
 }
