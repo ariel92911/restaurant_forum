@@ -3,6 +3,7 @@ const Restaurant = db.Restaurant
 const Category = db.Category
 const Comment = db.Comment
 const User = db.User
+const Favorite = db.Favorite
 
 const pageLimit = 10
 
@@ -87,12 +88,14 @@ let restController = {
     return Restaurant.findByPk(req.params.id, {
       include: [
         Category,
-        Comment
+        Comment,
+        { model: db.User, as: 'FavoritedUsers' }
       ]
     }).then(restaurant => {
       let commentCount = restaurant.Comments.length
+      let favoritedCount = restaurant.FavoritedUsers.length
       return res.render('dashboard', {
-        restaurant, commentCount
+        restaurant, commentCount, favoritedCount
       })
     })
   },
