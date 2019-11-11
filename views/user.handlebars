@@ -1,4 +1,4 @@
-<div class="col-md-11" style="margin:auto;">
+<div class="col-md-12" style="margin:auto;">
   <div class="card mb-3">
     <div class="row no-gutters">
       <div class="col-md-4">
@@ -8,26 +8,93 @@
         <div class="card-body">
           <h4>{{userPage.name}}</h4>
           <p>{{userPage.email}}</p>
-          <p>{{userPage.Comments.length}} 間已評論餐廳</p>
+          <ul class="list-unstyled">
+            <li><strong>{{userPage.Comments.length}}</strong> 已評論餐廳</li>
+            <li><strong>{{userPage.FavoritedRestaurants.length}}</strong> 收藏的餐廳</li>
+            <li><strong>{{userPage.Followings.length}}</strong> followings (追蹤者)</li>
+            <li><strong>{{userPage.Followers.length}}</strong> followers (追隨者)</li>
+          </ul>
           {{#if isOwner}}
           <a href="/users/{{userPage.id}}/edit" class="btn btn-primary">Edit</a>
+          {{else}}
+          {{#if isFollowed }}
+          <form action="/following/{{userPage.id}}?_method=DELETE" method="POST" style="display: contents;"><button
+              type="submit" class="btn btn-danger">取消追蹤</button></form>
+          {{else}}
+          <form action="/following/{{userPage.id}}" method="POST" style="display: contents;"><button type="submit"
+              class="btn btn-primary">追蹤</button></form>
+          {{/if}}
           {{/if}}
         </div>
       </div>
     </div>
   </div>
 </div>
-<div class="col-md-11" style="margin:auto;">
-  <div class="card">
-    <h5 class="card-header">{{userPage.Comments.length}} 間已評論餐廳</h5>
-    <div class="card-body">
-      {{#each userPage.Comments}}
-      <div class="mr-2" style="display:inline-block;">
-        <a href="/restaurants/{{this.Restaurant.id}}">
-          <img src="{{this.Restaurant.image}}" width="100" alt="">
-        </a>
+
+<div class="col-md-12 mb-3" style="margin:auto;">
+  <div class="row">
+    <div class="col-md-5">
+      <div class="card">
+        <h5 class="card-header">{{userPage.Followings.length}} followings (追蹤者)</h5>
+        <div class="card-body">
+          {{#each userPage.Followings}}
+          <div class="mr-2" style="display:inline-block;">
+            <a href="/users/{{this.id}}">
+              <img src="{{this.image}}" width="100" alt="">
+            </a>
+          </div>
+          {{/each}}
+        </div>
       </div>
-      {{/each}}
+    </div>
+
+    <div class="col-md-7">
+      <div class="card">
+        <h5 class="card-header">{{userPage.Comments.length}} 已評論餐廳</h5>
+        <div class="card-body">
+          {{#each userPage.Comments}}
+          <div class="mr-2" style="display:inline-block;">
+            <a href="/restaurants/{{this.Restaurant.id}}">
+              <img src="{{this.Restaurant.image}}" width="100" alt="">
+            </a>
+          </div>
+          {{/each}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="col-md-12" style="margin:auto;">
+  <div class="row">
+    <div class="col-md-5">
+      <div class="card">
+        <h5 class="card-header">{{userPage.Followers.length}} followers (追隨者)</h5>
+        <div class="card-body">
+          {{#each userPage.Followers}}
+          <div class="mr-2" style="display:inline-block;">
+            <a href="/users/{{this.id}}">
+              <img src="{{this.image}}" width="100" alt="">
+            </a>
+          </div>
+          {{/each}}
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-7">
+      <div class="card">
+        <h5 class="card-header">{{userPage.FavoritedRestaurants.length}} 收藏的餐廳</h5>
+        <div class="card-body">
+          {{#each userPage.FavoritedRestaurants}}
+          <div class="mr-2" style="display:inline-block;">
+            <a href="/restaurants/{{this.id}}">
+              <img src="{{this.image}}" width="100" alt="">
+            </a>
+          </div>
+          {{/each}}
+        </div>
+      </div>
     </div>
   </div>
 </div>

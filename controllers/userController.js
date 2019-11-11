@@ -156,7 +156,12 @@ const userController = {
   getUser: (req, res) => {
 
     User.findByPk(req.params.id, {
-      include: [{ model: Comment, include: [Restaurant] }]
+      include: [
+        { model: User, as: 'Followers' },
+        { model: User, as: 'Followings' },
+        { model: Comment, include: [Restaurant] },
+        { model: db.Restaurant, as: 'FavoritedRestaurants' }
+      ]
     })
       .then(userPage => {
         if (req.user.id === Number(req.params.id)) {
@@ -164,7 +169,13 @@ const userController = {
           return res.render('user', { userPage, isOwner })
         }
 
-        return res.render('user', { userPage })
+        //判斷該用戶有無在使用者的追蹤名單內
+        let followedList = []
+        for (let i = 0; i < userPage.Followers.length; i++) {
+          followedList.push(userPage.Followers[i].id)
+        }
+        let isFollowed = followedList.includes(req.user.id)
+        return res.render('user', { userPage, isFollowed })
       })
   },
 
