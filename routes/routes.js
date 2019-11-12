@@ -1,3 +1,6 @@
+const express = require('express')
+const router = express.Router()
+
 const restController = require('../controllers/restController.js')
 const adminController = require('../controllers/adminController.js')
 const userController = require('../controllers/userController.js')
@@ -5,8 +8,6 @@ const categoryController = require('../controllers/categoryController.js')
 const commentController = require('../controllers/commentController.js')
 const multer = require('multer')
 const upload = multer({ dest: 'temp/' })
-const express = require('express');
-const router = express.Router();
 
 const passport = require('../config/passport')
 
@@ -41,8 +42,6 @@ router.get('/restaurant/:id', authenticated, restController.getDashboard)
 router.post('/comments', authenticated, commentController.postComment)
 router.delete('/comments/:id', authenticatedAdmin, commentController.deleteComment)
 
-router.get('/users/top', authenticated, userController.getTopUser)
-
 router.get('/admin', authenticatedAdmin, (req, res) => res.redirect('/admin/users'))
 router.get('/admin/restaurants', authenticatedAdmin, adminController.getRestaurants)
 router.get('/admin/restaurants/create', authenticatedAdmin, adminController.createRestaurant)
@@ -65,6 +64,11 @@ router.delete('/admin/categories/:id', authenticatedAdmin, categoryController.de
 
 router.get('/signup', userController.signUpPage)
 router.post('/signup', userController.signUp)
+
+router.get('/users/top', authenticated, userController.getTopUser)
+router.get('/users/:id', authenticated, userController.getUser)
+router.get('/users/:id/edit', authenticatedOwner, userController.editUser)
+router.put('/users/:id', authenticatedOwner, upload.single('image'), userController.putUser)
 router.post('/favorite/:restaurantId', authenticated, userController.addFavorite)
 router.delete('/favorite/:restaurantId', authenticated, userController.removeFavorite)
 router.post('/following/:userId', authenticated, userController.addFollowing)
@@ -75,9 +79,5 @@ router.delete('/like/:restaurantId', authenticated, userController.removeLike)
 router.get('/signin', userController.signInPage)
 router.post('/signin', passport.authenticate('local', { failureRedirect: '/signin', failureFlash: true }), userController.signIn)
 router.get('/logout', userController.logout)
-
-router.get('/users/:id', authenticated, userController.getUser)
-router.get('/users/:id/edit', authenticatedOwner, userController.editUser)
-router.put('/users/:id', authenticatedOwner, upload.single('image'), userController.putUser)
 
 module.exports = router
