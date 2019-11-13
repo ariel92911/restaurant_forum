@@ -16,6 +16,7 @@ router.delete('/admin/restaurants/:id', adminController.deleteRestaurant)
 
 
 router.get("/admin/categories", categoryController.getCategories)
+router.delete("/admin/categories/:id", categoryController.deleteCategory)
 
 // JWT signin
 router.post('/signin', userController.signIn)
