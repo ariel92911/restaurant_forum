@@ -1,16 +1,21 @@
 const express = require('express')
 const router = express.Router()
 
+//引入 multer 並設定上傳資料夾(圖片)
+const multer = require('multer')
+const upload = multer({ dest: 'temp/' })
+
+//引入controller
 const restController = require('../controllers/restController.js')
 const adminController = require('../controllers/adminController.js')
 const userController = require('../controllers/userController.js')
 const categoryController = require('../controllers/categoryController.js')
 const commentController = require('../controllers/commentController.js')
-const multer = require('multer')
-const upload = multer({ dest: 'temp/' })
 
+//passport
 const passport = require('../config/passport')
 
+//身分認證
 const authenticated = (req, res, next) => {
   if (req.isAuthenticated()) {
     return next()
@@ -42,6 +47,7 @@ router.get('/restaurant/:id', authenticated, restController.getDashboard)
 router.post('/comments', authenticated, commentController.postComment)
 router.delete('/comments/:id', authenticatedAdmin, commentController.deleteComment)
 
+//後台-餐廳管理
 router.get('/admin', authenticatedAdmin, (req, res) => res.redirect('/admin/users'))
 router.get('/admin/restaurants', authenticatedAdmin, adminController.getRestaurants)
 router.get('/admin/restaurants/create', authenticatedAdmin, adminController.createRestaurant)
@@ -51,11 +57,11 @@ router.get('/admin/restaurants/:id/edit', authenticatedAdmin, adminController.ed
 router.put('/admin/restaurants/:id', authenticatedAdmin, upload.single('image'), adminController.putRestaurant)
 router.delete('/admin/restaurants/:id', authenticatedAdmin, adminController.deleteRestaurant)
 
-//使用者權限管理-路由
+//後台-使用者權限管理
 router.get('/admin/users', authenticatedAdmin, adminController.editUsers)
 router.put('/admin/users/:id', authenticatedAdmin, adminController.putUsers)
 
-//餐廳分類管理-路由
+//後台-餐廳類別管理
 router.get('/admin/categories', authenticatedAdmin, categoryController.getCategories)
 router.post('/admin/categories', authenticatedAdmin, categoryController.postCategory)
 router.get('/admin/categories/:id', authenticatedAdmin, categoryController.getCategories)
