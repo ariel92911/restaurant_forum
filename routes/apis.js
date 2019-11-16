@@ -19,6 +19,7 @@ router.delete('/admin/restaurants/:id', adminController.deleteRestaurant)
 //後台-餐廳類別管理
 router.get("/admin/categories", categoryController.getCategories)
 router.post('/admin/categories', categoryController.postCategory)
+router.put('/admin/categories/:id', categoryController.putCategory)
 router.delete("/admin/categories/:id", categoryController.deleteCategory)
 
 // JWT signin
