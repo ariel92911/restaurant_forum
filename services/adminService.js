@@ -4,6 +4,7 @@ const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
 const db = require('../models')
 const Restaurant = db.Restaurant
 const Category = db.Category
+const User = db.User
 
 const adminService = {
   getRestaurants: (req, res, callback) => {
@@ -75,7 +76,7 @@ const adminService = {
               image: file ? img.data.link : restaurant.image,
               CategoryId: req.body.categoryId
             }).then((restaurant) => {
-              callback({ status: 'success', message: 'restaurant was successfully updated' })
+              callback({ status: 'success', message: 'restaurant was successfully to update' })
             })
           })
       })
@@ -92,7 +93,7 @@ const adminService = {
             CategoryId: req.body.categoryId
           })
             .then((restaurant) => {
-              callback({ status: 'success', message: 'restaurant was successfully updated' })
+              callback({ status: 'success', message: 'restaurant was successfully to update' })
             })
         })
     }
@@ -106,7 +107,26 @@ const adminService = {
             callback({ status: 'success', message: '' })
           })
       })
-  }
+  },
+
+  editUsers: (req, res, callback) => {
+    return User.findAll().then(users => {
+      callback({ users: users })
+    })
+  },
+
+  putUsers: (req, res, callback) => {
+    return User.findByPk(req.params.id)
+      .then((user) => {
+        user.update({
+          isAdmin: !user.isAdmin
+        })
+          .then(() => {
+            callback({ status: 'success', message: 'user was successfully to update' })
+          })
+      })
+
+  },
 }
 
 module.exports = adminService

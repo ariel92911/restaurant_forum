@@ -70,26 +70,17 @@ const adminController = {
   },
 
   editUsers: (req, res) => {
-    return User.findAll().then(users => {
-      return res.render('admin/users', { users: users })
+    adminService.editUsers(req, res, (data) => {
+      return res.render('admin/users', data)
     })
   },
 
   putUsers: (req, res) => {
-    return User.findByPk(req.params.id)
-      .then((user) => {
-
-        user.update({
-          isAdmin: !user.isAdmin
-        })
-          .then(() => {
-            req.flash('success_messages', 'user was successfully to update')
-            res.redirect('/admin/users')
-          })
-      })
-
+    adminService.putUsers(req, res, (data) => {
+      req.flash('success_messages', data['message'])
+      res.redirect('/admin/users')
+    })
   },
-
 }
 
 module.exports = adminController

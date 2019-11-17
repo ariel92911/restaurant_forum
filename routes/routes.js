@@ -48,7 +48,7 @@ router.post('/comments', authenticated, commentController.postComment)
 router.delete('/comments/:id', authenticatedAdmin, commentController.deleteComment)
 
 //後台-餐廳管理
-router.get('/admin', authenticatedAdmin, (req, res) => res.redirect('/admin/users'))
+router.get('/admin', authenticatedAdmin, (req, res) => res.redirect('/admin/restaurants'))
 router.get('/admin/restaurants', authenticatedAdmin, adminController.getRestaurants)
 router.get('/admin/restaurants/create', authenticatedAdmin, adminController.createRestaurant)
 router.post('/admin/restaurants', authenticatedAdmin, upload.single('image'), adminController.postRestaurant)

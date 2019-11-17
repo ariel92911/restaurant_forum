@@ -32,7 +32,19 @@ const adminController = {
     adminService.deleteRestaurant(req, res, (data) => {
       return res.json(data)
     })
-  }
+  },
+
+  editUsers: (req, res) => {
+    adminService.editUsers(req, res, (data) => {
+      return res.json(data)
+    })
+  },
+
+  putUsers: (req, res) => {
+    adminService.putUsers(req, res, (data) => {
+      return res.json(data)
+    })
+  },
 
 
 }
