@@ -40,6 +40,15 @@ router.delete("/admin/categories/:id", authenticated, authenticatedAdmin, catego
 router.get('/admin/users', authenticated, authenticatedAdmin, adminController.editUsers)
 router.put('/admin/users/:id', authenticated, authenticatedAdmin, adminController.putUsers)
 
+//使用者
+router.get('/users/top', authenticated, userController.getTopUser)
+router.post('/favorite/:restaurantId', authenticated, userController.addFavorite)
+router.delete('/favorite/:restaurantId', authenticated, userController.removeFavorite)
+router.post('/like/:restaurantId', authenticated, userController.addLike)
+router.delete('/like/:restaurantId', authenticated, userController.removeLike)
+router.post('/following/:userId', authenticated, userController.addFollowing)
+router.delete('/following/:userId', authenticated, userController.removeFollowing)
+
 // JWT signin
 router.post('/signin', userController.signIn)
 router.post('/signup', userController.signUp)

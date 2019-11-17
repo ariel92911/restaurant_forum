@@ -71,6 +71,7 @@ router.delete('/admin/categories/:id', authenticatedAdmin, categoryController.de
 router.get('/signup', userController.signUpPage)
 router.post('/signup', userController.signUp)
 
+//使用者
 router.get('/users/top', authenticated, userController.getTopUser)
 router.get('/users/:id', authenticated, userController.getUser)
 router.get('/users/:id/edit', authenticatedOwner, userController.editUser)
